@@ -30,9 +30,23 @@ def create_new_offer(offers, products, customers):
     Prompt user to create a new offer by selecting a customer, entering date,
     choosing products, and calculating totals.
     """
-    # Omogućite unos kupca
+    # Omogućite unos kupca --> Kupac upise broj ispred a vi onda pokupite te podatke
+    #       za ovo bi dobro dosla jedna while True petlja s brake izlazom.
     # Izračunajte sub_total, tax i total
     # Dodajte novu ponudu u listu offers
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
     pass
 
 
@@ -53,6 +67,53 @@ def manage_customers(customers):
     Allows the user to add a new customer or view all customers.
     """
     # Za dodavanje: omogući unos imena kupca, emaila i unos VAT ID-a
+costumer_list = []
+manage_customers(costumer_list)
+
+while True:  
+    
+    print('-------------')
+    print('IZBORNIK')
+    print('-------------')
+ 
+    print("1. Dodaj novog kupca")
+    print("2. Prikaži sve kupce")
+    print("3. Izlaz")
+    choice = input('Odaberite opciju: ')
+    
+    
+    if choice == "1":
+        name = input('Unesite ime kupca: ')
+        email = input('Unesite email: ')
+        vat_id = input('Unesite ID kupca: ')
+        
+
+        costumer = {
+                "Ime": name,
+                "Email": email,
+                "ID": vat_id
+
+        }
+        costumer_list.append(costumer)
+        print('Kupac uspjesno dodan!\n')
+
+    
+    
+    elif choice == "2":
+        if not costumer:
+            print('Nema unesenih kupaca.')
+        else:
+            print("Lista svih kupaca:")
+            for idx, costumer in enumerate(costumer, start=1):
+                print(f'{idx}. {costumer['Ime']}, {costumer["Email"]}, {costumer["ID"]}')
+    elif choice == "3":
+        print('Izlaz iz programa')
+        break
+    else:
+        print('Krivi odabir, pokusajte ponovno')
+
+
+
     # Za pregled: prikaži listu svih kupaca
     pass
 
@@ -62,6 +123,92 @@ def display_offers(offers):
     """
     Display all offers, offers for a selected month, or a single offer by ID.
     """
+from datetime import datetime
+
+OFFERS_FILE = "offers.json"
+
+def load_offers_from_file():
+    """ Učitava ponude iz JSON datoteke ako postoji. """
+    try:
+        with open(OFFERS_FILE, "r", encoding="utf-8") as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+
+def display_offers(offers):
+    """
+    Omogućuje pregled svih ponuda, filtriranje po mjesecu ili prikaz pojedinačne ponude po ID-u.
+    """
+    if not offers:
+        print("⚠ Nema dostupnih ponuda.")
+        return
+
+    while True:
+        print("\n Odaberite način pregleda ponuda:")
+        print("1. Prikaz svih ponuda")
+        print("2. Prikaz ponuda za određeni mjesec")
+        print("3. Prikaz pojedinačne ponude (prema ID-u)")
+        print("4. Povratak")
+
+        choice = input("Unesite broj opcije: ")
+
+        if choice == "1":
+            print("\n Sve ponude:")
+            for idx, offer in enumerate(offers, start=1):
+                print(f"{idx}. {offer['datum']} - {offer['kupac']} - {offer['total']} kn")
+
+        elif choice == "2":
+            month = input("Unesite mjesec (MM format, npr. 02 za veljaču): ")
+            filtered_offers = [o for o in offers if datetime.strptime(o['datum'], "%Y-%m-%d").strftime("%m") == month]
+            
+            if not filtered_offers:
+                print(" Nema ponuda za odabrani mjesec.")
+            else:
+                print(f"\n Ponude za mjesec {month}:")
+                for idx, offer in enumerate(filtered_offers, start=1):
+                    print(f"{idx}. {offer['datum']} - {offer['kupac']} - {offer['total']} kn")
+
+        elif choice == "3":
+            try:
+                offer_id = int(input("Unesite ID ponude (redni broj s popisa): ")) - 1
+                if 0 <= offer_id < len(offers):
+                    offer = offers[offer_id]
+                    print("\n Detalji ponude:")
+                    print(f" ID: {offer_id + 1}")
+                    print(f" Kupac: {offer['kupac']} ({offer['email']})")
+                    print(f" Datum: {offer['datum']}")
+                    print(f" Artikli:")
+                    for item in offer["proizvodi"]:
+                        print(f"   - {item['naziv']} ({item['kolicina']} kom) - {item['cijena']} kn/kom")
+                    print(f" Subtotal: {offer['sub_total']} kn")
+                    print(f" Porez: {offer['tax']} kn")
+                    print(f" Ukupno: {offer['total']} kn")
+                else:
+                    print(" Nevažeći ID. Pokušajte ponovno.")
+            except ValueError:
+                print(" Molimo unesite broj.")
+
+        elif choice == "4":
+            break
+
+        else:
+            print(" Nevažeća opcija. Pokušajte ponovno.")   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # Omogućite izbor pregleda: sve ponude, po mjesecu ili pojedinačna ponuda
     # Prikaz relevantnih ponuda na temelju izbora
     pass
