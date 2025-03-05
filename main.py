@@ -37,15 +37,6 @@ def create_new_offer(offers, products, customers):
 
 
 
-
-
-
-
-
-    
-    
-    
-    
     
     pass
 
@@ -140,7 +131,7 @@ def display_offers(offers):
     Omogućuje pregled svih ponuda, filtriranje po mjesecu ili prikaz pojedinačne ponude po ID-u.
     """
     if not offers:
-        print("⚠ Nema dostupnih ponuda.")
+        print("Nema dostupnih ponuda.")
         return
 
     while True:
@@ -158,7 +149,7 @@ def display_offers(offers):
                 print(f"{idx}. {offer['datum']} - {offer['kupac']} - {offer['total']} kn")
 
         elif choice == "2":
-            month = input("Unesite mjesec (MM format, npr. 02 za veljaču): ")
+            month = input("Unesite mjesec (MM format, npr. 02 za Veljaču): ")
             filtered_offers = [o for o in offers if datetime.strptime(o['datum'], "%Y-%m-%d").strftime("%m") == month]
             
             if not filtered_offers:
@@ -179,7 +170,7 @@ def display_offers(offers):
                     print(f" Datum: {offer['datum']}")
                     print(f" Artikli:")
                     for item in offer["proizvodi"]:
-                        print(f"   - {item['naziv']} ({item['kolicina']} kom) - {item['cijena']} kn/kom")
+                        print(f"{item['naziv']} ({item['kolicina']} kom) - {item['cijena']} kn/kom")
                     print(f" Subtotal: {offer['sub_total']} kn")
                     print(f" Porez: {offer['tax']} kn")
                     print(f" Ukupno: {offer['total']} kn")
