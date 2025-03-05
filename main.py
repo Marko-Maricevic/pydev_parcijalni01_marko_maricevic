@@ -135,7 +135,7 @@ def display_offers(offers):
         return
 
     while True:
-        print("\n Odaberite način pregleda ponuda:")
+        print("Odaberite način pregleda ponuda:")
         print("1. Prikaz svih ponuda")
         print("2. Prikaz ponuda za određeni mjesec")
         print("3. Prikaz pojedinačne ponude (prema ID-u)")
